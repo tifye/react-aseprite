@@ -49,7 +49,12 @@ function createInstance(
   hostContext,
   internalInstanceHandle
 ) {
-  console.log("createInstance", type, props);
+  // console.log("createInstance", type, props);
+  console.log("createInstance");
+  return {
+    type,
+    props,
+  };
 }
 
 function createTextInstance(
@@ -59,6 +64,7 @@ function createTextInstance(
   internalInstanceHandle
 ) {
   console.log("createTextInstance", text);
+  return text;
 }
 
 function appendInitialChild(parentInstance, child) {
@@ -72,19 +78,28 @@ function finalizeInitialChildren(
   rootContainerInstance,
   hostContext
 ) {
-  console.log("finalizeInitialChildren", parentInstance, type, props);
+  // console.log("finalizeInitialChildren", parentInstance, type, props);
+  console.log("finalizeInitialChildren");
+  return false;
 }
 
 function shouldSetTextContent(type, props) {
-  console.log("shouldSetTextContent", type, props);
+  console.log("shouldSetTextContent");
+  return false;
 }
 
 function getRootHostContext(rootContainerInstance) {
-  console.log("getRootHostContext", rootContainerInstance);
+  console.log("getRootHostContext");
+  // context of where i am in the component tree
+  // TODO: Should check whether root is a Dialog
+  return null;
 }
 
 function getChildHostContext(parentHostContext, type, rootContainerInstance) {
-  console.log("getChildHostContext", parentHostContext, type);
+  console.log("getChildHostContext");
+  // context of where i am in the component tree
+  // TODO: Context should contain information about Dialog rows to validate placement
+  return parentHostContext;
 }
 
 function getPublicInstance(instance) {
@@ -92,11 +107,12 @@ function getPublicInstance(instance) {
 }
 
 function prepareForCommit(containerInfo) {
-  console.log("prepareForCommit", containerInfo);
+  console.log("prepareForCommit");
+  return null;
 }
 
 function resetAfterCommit(containerInfo) {
-  console.log("resetAfterCommit", containerInfo);
+  console.log("resetAfterCommit");
 }
 
 function prepareUpdate(instance, type, oldProps, newProps, hostContext) {
@@ -138,10 +154,13 @@ function cloneInstance(
 
 function createContainerChildSet(container) {
   console.log("createContainerChildSet", container);
+  return [];
 }
 
 function appendChildToContainerChildSet(childSet, child) {
-  console.log("appendChildToContainerChildSet", childSet, child);
+  // console.log("appendChildToContainerChildSet", childSet, child);
+  console.log("appendChildToContainerChildSet");
+  childSet.push(child);
 }
 
 function finalizeContainerChildren(container, newChildren) {

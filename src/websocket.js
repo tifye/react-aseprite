@@ -1,17 +1,32 @@
 import { WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: 8081 });
+let wss = null;
+let client = null;
 
-wss.on("connection", (ws) => {
-  ws.on("message", (data, isBinary) => {
-    console.log("message", isBinary, data);
-    ws.send("hello from node server");
-    const json = data.toString("utf8");
-    console.log("json", json);
-  });
+export function startServer() {
+  return new Promise((resolve, reject) => {
+    wss = new WebSocketServer({ port: 8081 });
+    wss.on("listening", () => {
+      console.log("listening");
+      resolve();
+    });
 
-  ws.on("close", () => {
-    console.log("closing connection");
-    wss.close();
+    wss.on("connection", (ws) => {
+      ws.on("message", (data, isBinary) => {
+        const json = data.toString("utf8");
+        console.log("json", json);
+      });
+
+      ws.on("close", () => {
+        console.log("closing connection");
+        wss.close();
+      });
+    });
   });
-});
+}
+
+export function sendToClient(data) {
+  if (client) {
+    client.send(data);
+  }
+}

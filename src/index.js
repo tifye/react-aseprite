@@ -2,10 +2,16 @@ import ReactAseprite from "./reactAseprite.js";
 import Dialog from "./components/Dialog";
 import Button from "./components/Button";
 import React from "react";
-import "./websocket.js";
+import { startServer } from "./websocket.js";
 
-ReactAseprite.render(
-  <Dialog>
-    <Button />
-  </Dialog>
-);
+startServer()
+  .then(() => {
+    ReactAseprite.render(
+      <Dialog>
+        <Button />
+      </Dialog>
+    );
+  })
+  .catch((err) => {
+    console.log("err", err);
+  });
