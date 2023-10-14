@@ -1,0 +1,25 @@
+{
+  "name": "react-aseprite",
+  "version": "1.0.0",
+  "description": "This project is just for me to learn how to create custom react renderer. Why Aesprite? Idk, would be cool.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir dist",
+    "start": "npm run build && node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react-reconciler": "^0.29.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-react": "^7.22.15"
+  }
+}
