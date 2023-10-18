@@ -1,21 +1,21 @@
 {
-    "saveAndRun": {
-        "commands": [
-            {
-                "match": ".lua",
-                "cmd": "${workspaceRoot}\\copy_to_scripts_folder.ps1",
-                "useShortcut": false,
-                "silent": true
-            }
-        ]
-    },
-    "Lua.diagnostics.globals": [
-        "app",
-        "Color",
-        "Dialog",
-        "Rectangle",
-        "MouseButton",
-        "WebSocket",
-        "WebSocketMessageType"
+  "saveAndRun": {
+    "commands": [
+      {
+        "match": ".lua",
+        "cmd": "${workspaceRoot}\\copy_to_scripts_folder.ps1 ${fileBasename}",
+        "useShortcut": false,
+        "silent": true
+      }
     ]
+  },
+  "Lua.diagnostics.globals": [
+    "app",
+    "Color",
+    "Dialog",
+    "Rectangle",
+    "MouseButton",
+    "WebSocket",
+    "WebSocketMessageType"
+  ]
 }

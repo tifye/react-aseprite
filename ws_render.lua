@@ -28,13 +28,13 @@ dialog
 }
 :button {
     id = "create",
-    text = "Send Create Separator",
+    text = "Send Create Separator meep",
     onclick = function()
         Ws:sendText("create separator")
     end
 }
 
-function Refresh() 
+function Refresh()
     dialog:repaint()
 end
 
@@ -48,16 +48,53 @@ function AddSeparator(dialog, text)
     return id
 end
 
-function HandleMessage(mType, data)
-    if mType == WebSocketMessageType.OPEN then
-        Ws:sendText("Hello from Lua!")
-    
-    elseif mType == WebSocketMessageType.CLOSE then
-        Ws:close()
+function CreateButton(id, data)
+  dialog:button {
+    id = id,
+    text = data.text,
+    onclick = function()
+      print("Button clicked!")
+    end
+  }
+end
 
-    elseif mType == WebSocketMessageType.TEXT then
-        AddSeparator(dialog, data)
-        Refresh()
+CreateHandlers = {
+    ["button"] = CreateButton
+}
+
+RequestHandlers = {
+  ["create"] = function(obj)
+    local handler = CreateHandlers[obj.type]
+    if handler ~= nil then
+        handler(obj.id, obj.data)
+    end
+  end
+}
+
+function HandleTextMessage(data)
+    local obj = json.decode(data)
+    local handler = RequestHandlers[obj.method]
+    if handler ~= nil then
+        handler(obj)
+    end
+
+    Refresh()
+end
+
+MessageHandlers = {
+    [WebSocketMessageType.TEXT] = HandleTextMessage,
+    [WebSocketMessageType.OPEN] = function(data)
+        Ws:sendText("Hello from Lua!")
+    end,
+    [WebSocketMessageType.CLOSE] = function(data)
+        Ws:close()
+    end
+}
+
+function HandleMessage(mType, data)
+    local handler = MessageHandlers[mType]
+    if handler ~= nil then
+        handler(data)
     end
 end
 

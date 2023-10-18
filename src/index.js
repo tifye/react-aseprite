@@ -8,7 +8,11 @@ startServer()
   .then(() => {
     ReactAseprite.render(
       <Dialog>
-        <Button />
+        <Button text="Mino"/>
+        <Button text="Hello"/>
+        <Button text="to"/>
+        <Button text="Izzy"/>
+        <Button text="from NodeJs"/>
       </Dialog>
     );
   })

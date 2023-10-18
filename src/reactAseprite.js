@@ -1,5 +1,8 @@
 import ReactReconciler from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants.js";
+import DialogInstance from "./elements/dialog";
+import ButtonInstance from "./elements/button";
+import LuaRenderer from "./lua-renderer";
 
 const HostConfig = {
   supportsMutation: false,
@@ -33,6 +36,7 @@ const HostConfig = {
 };
 
 const reconciler = ReactReconciler(HostConfig);
+const renderer = new LuaRenderer(); 
 
 const ReactAseprite = {
   render(element) {
@@ -51,10 +55,18 @@ function createInstance(
 ) {
   // console.log("createInstance", type, props);
   console.log("createInstance");
-  return {
-    type,
-    props,
-  };
+  let instance;
+  switch (type) {
+    case "dialog":
+      instance = new DialogInstance(props, renderer);
+      break;
+    case "button":
+      instance = new ButtonInstance(props, renderer);
+      break;
+    default:
+      break;
+  }
+  return instance;
 }
 
 function createTextInstance(
@@ -68,7 +80,8 @@ function createTextInstance(
 }
 
 function appendInitialChild(parentInstance, child) {
-  console.log("appendInitialChild", parentInstance, child);
+  console.log("appendInitialChild");
+  parentInstance.appendChild(child);
 }
 
 function finalizeInitialChildren(
@@ -169,6 +182,9 @@ function finalizeContainerChildren(container, newChildren) {
 
 function replaceContainerChildren(container, newChildren) {
   console.log("replaceContainerChildren", container, newChildren);
+  newChildren.forEach((child) => {
+    child.render();
+  });
 }
 
 function cloneHiddenInstance(instance, type, props, internalInstanceHandle) {
