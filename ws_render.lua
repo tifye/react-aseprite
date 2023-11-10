@@ -48,12 +48,23 @@ function AddSeparator(dialog, text)
     return id
 end
 
+function EmitEvent(id, event, details) 
+  Ws:sendText(json.encode({
+    id = id,  
+    event = event,
+    details = details
+  }))
+end
+
 function CreateButton(id, data)
   dialog:button {
     id = id,
     text = data.text,
     onclick = function()
-      print("Button clicked!")
+      details = {
+        message = data.text
+      }
+      EmitEvent(id, "click", details)
     end
   }
 end
