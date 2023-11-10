@@ -1,18 +1,19 @@
 import ReactAseprite from "./reactAseprite.js";
 import Dialog from "./components/Dialog";
 import Button from "./components/Button";
+import UpdatingButton from "./customComponents/UpdatingButton";
 import React from "react";
 import { startServer } from "./websocket.js";
 
 startServer()
-  .then(() => {
+  .then((ws) => {
+    ReactAseprite.initialize(ws);
+
     ReactAseprite.render(
       <Dialog>
-        <Button text="Mino"/>
-        <Button text="Hello"/>
-        <Button text="to"/>
-        <Button text="Izzy"/>
-        <Button text="from NodeJs"/>
+        <Button text="Mino" />
+        <Button text="Hello" />
+        <UpdatingButton />
       </Dialog>
     );
   })

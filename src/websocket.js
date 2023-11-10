@@ -13,18 +13,18 @@ export function startServer() {
 
     wss.on("connection", (ws) => {
       client = ws;
-      
-      ws.on("message", (data, isBinary) => {
-        const json = data.toString("utf8");
-        console.log("json", json);
-      });
-      
+
+      // ws.on("message", (data, isBinary) => {
+      //   const json = data.toString("utf8");
+      //   console.log("json", json);
+      // });
+
       ws.on("close", () => {
         console.log("closing connection");
         wss.close();
       });
-      
-      resolve();
+
+      resolve(ws);
     });
   });
 }

@@ -36,9 +36,13 @@ const HostConfig = {
 };
 
 const reconciler = ReactReconciler(HostConfig);
-const renderer = new LuaRenderer(); 
+let renderer;
 
 const ReactAseprite = {
+  initialize(ws) {
+    renderer = new LuaRenderer(ws);
+  },
+
   render(element) {
     const rootElement = { mino: "meep" };
     const root = reconciler.createContainer(rootElement, false, false);

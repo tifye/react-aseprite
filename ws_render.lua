@@ -48,11 +48,11 @@ function AddSeparator(dialog, text)
     return id
 end
 
-function EmitEvent(id, event, details) 
+function EmitEvent(id, event, data) 
   Ws:sendText(json.encode({
     id = id,  
     event = event,
-    details = details
+    data = data
   }))
 end
 
@@ -61,10 +61,10 @@ function CreateButton(id, data)
     id = id,
     text = data.text,
     onclick = function()
-      details = {
+      data = {
         message = data.text
       }
-      EmitEvent(id, "click", details)
+      EmitEvent(id, "click", data)
     end
   }
 end
@@ -95,7 +95,6 @@ end
 MessageHandlers = {
     [WebSocketMessageType.TEXT] = HandleTextMessage,
     [WebSocketMessageType.OPEN] = function(data)
-        Ws:sendText("Hello from Lua!")
     end,
     [WebSocketMessageType.CLOSE] = function(data)
         Ws:close()
