@@ -1,5 +1,6 @@
 local DIALOG = "dialog"
 local BUTTON = "button"
+local NEWROW = "newrow"
 
 local ACTION = "action"
 local CREATE = "create"
@@ -74,6 +75,10 @@ function CreateDialog(id, data)
   }
 end
 
+function CreateNewRow(id, data)
+  userDialog:newrow()
+end
+
 DialogActions = {
   ["show"] = function(id, data)
     userDialog:show {
@@ -84,7 +89,8 @@ DialogActions = {
 
 CreateHandlers = {
     [BUTTON] = CreateButton,
-    [DIALOG] = CreateDialog
+    [DIALOG] = CreateDialog,
+    [NEWROW] = CreateNewRow
 }
 
 ActionHandlers = {

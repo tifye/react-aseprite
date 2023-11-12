@@ -4,6 +4,7 @@ import AsepriteWebSocketConnection from "./websocket";
 import { AsepriteContext, setAsepriteContext } from "./aseprite-context";
 import Button from "./components/Button";
 import Dialog from "./components/Dialog";
+import Break from "./components/Break";
 
 async function main() {
   const socket = new AsepriteWebSocketConnection();
@@ -16,13 +17,14 @@ async function main() {
     <Dialog title="Meep">
       <Button
         text="Click me, Mino!"
-        label="Mino"
+        label="labelle"
         focus={false}
         selected={false}
         visible={true}
         onclick={() => console.log("Mino was click")}
       />
-      <Button label="Unexcepted" text="Another one?" />
+      <Break />
+      <Button text="Another one?" />
     </Dialog>
   );
 }
