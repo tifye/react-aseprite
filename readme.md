@@ -6,9 +6,10 @@ This project is just for me to learn how to create custom react renderer. Why Ae
 
 Currently in proof of concept phase. Exploring the react reconciler, rendering cycles, and communication with lua/Aseprite.
 
-I will have two goals for this:
+I will have three goals for this:
 
 1. Create a simple counter just like every other web starter xd
 ![image](https://github.com/tifye/react-aseprite/assets/9316788/17268eb5-21f0-4ef6-949c-46601d42f478)
 
-3. Create a pixelated version of an image using the Swatch element
+2. Create a pixelated version of an image using the Swatch element
+3. Recreate my palette organizer script using this
