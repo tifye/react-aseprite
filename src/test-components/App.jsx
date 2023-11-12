@@ -1,8 +1,8 @@
 import React from "react";
-import Button from "../components/Button";
+import Button from "../components/button";
 import Dialog from "../components/Dialog";
 import Break from "../components/Break";
-import Separator from "../components/Separator";
+import Label from "../components/Label";
 
 export default function () {
   const [count, setCount] = React.useState(0);
@@ -23,10 +23,7 @@ export default function () {
 
   return (
     <Dialog title="Meep">
-      <Button />
-      <Button text={count} />
-      <Button />
-      <Break />
+      <Label tail={`Counter: ${count}`} />
       <Button text="-" onclick={subClicked} />
       <Button text="+" onclick={addClicked} />
     </Dialog>

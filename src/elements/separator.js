@@ -1,6 +1,9 @@
+import { getRandomId } from "../utils";
+
 export function createSeparator(context, props) {
   console.log("createSeparator");
-  const sep = new Separator(context, props);
+  const id = getRandomId();
+  const sep = new Separator(context, id);
 
   sep.text = props.text;
 

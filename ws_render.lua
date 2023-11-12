@@ -2,6 +2,7 @@ local DIALOG = "dialog"
 local BUTTON = "button"
 local NEWROW = "newrow"
 local SEPARATOR = "separator"
+local LABLE = "label"
 
 local ACTION = "action"
 local CREATE = "create"
@@ -65,6 +66,9 @@ function CreateButton(id, data)
 end
 
 function UpdateButton(id, data)
+  if data.label == "" then 
+    data.label = nil
+  end
   userDialog:modify {
     id = id,
     text = data.text,
@@ -99,6 +103,22 @@ function CreateSeparator(id, data)
   }
 end
 
+function CreateLabel(id, data)
+  userDialog:label {
+    id = id,
+    text = data.text,
+    label = data.label,
+  }
+end
+
+function UpdateLabel(id, data)
+  userDialog:modify {
+    id = id,
+    text = data.text,
+    label = data.label,
+  }
+end
+
 DialogActions = {
   ["show"] = function(id, data)
     userDialog:show {
@@ -111,11 +131,13 @@ CreateHandlers = {
     [BUTTON] = CreateButton,
     [DIALOG] = CreateDialog,
     [NEWROW] = CreateNewRow,
-    [SEPARATOR] = CreateSeparator
+    [SEPARATOR] = CreateSeparator,
+    [LABLE] = CreateLabel
 }
 
 UpdateHandlers = {
-  [BUTTON] = UpdateButton
+  [BUTTON] = UpdateButton,
+  [LABLE] = UpdateLabel
 }
 
 ActionHandlers = {
