@@ -1,4 +1,10 @@
-local curSepId = 1
+local DIALOG = "dialog"
+local BUTTON = "button"
+
+local ACTION = "action"
+local CREATE = "create"
+
+local userDialog
 
 local dialog = Dialog {
     title = "Websocket Render Test"
@@ -8,10 +14,6 @@ dialog:newrow {
 }
 dialog.bounds = Rectangle(300, 300, 250, 250)
 dialog
-:separator {
-    id = "sep1",
-    text = "Websocket Render Test"
-}
 :button {
     id = "connect",
     text = "Connect",
@@ -26,26 +28,9 @@ dialog
         Ws:close()
     end
 }
-:button {
-    id = "create",
-    text = "Send Create Separator meep",
-    onclick = function()
-        Ws:sendText("create separator")
-    end
-}
 
 function Refresh()
     dialog:repaint()
-end
-
-function AddSeparator(dialog, text)
-    local id = "sep" .. curSepId
-    curSepId = curSepId + 1
-    dialog:separator {
-        id = id,
-        text = text
-    }
-    return id
 end
 
 function EmitEvent(id, event, data) 
@@ -57,9 +42,16 @@ function EmitEvent(id, event, data)
 end
 
 function CreateButton(id, data)
-  dialog:button {
+  if data.label == "" then 
+    data.label = nil
+  end
+  userDialog:button {
     id = id,
     text = data.text,
+    label = data.label,
+    selected = data.selected,
+    focus = data.focus,
+    visible = data.visible,
     onclick = function()
       data = {
         message = data.text
@@ -69,21 +61,61 @@ function CreateButton(id, data)
   }
 end
 
+function CreateDialog(id, data)
+  userDialog = Dialog { 
+    title = data.title,
+    notitlebar = data.notitlebar,
+    onclose = function()
+      Ws:close()
+    end
+  }
+  userDialog:newrow {
+    always = false
+  }
+end
+
+DialogActions = {
+  ["show"] = function(id, data)
+    userDialog:show {
+      wait = false
+    }
+  end
+}
+
 CreateHandlers = {
-    ["button"] = CreateButton
+    [BUTTON] = CreateButton,
+    [DIALOG] = CreateDialog
+}
+
+ActionHandlers = {
+  [DIALOG] = DialogActions
 }
 
 RequestHandlers = {
-  ["create"] = function(obj)
+  [CREATE] = function(obj)
     local handler = CreateHandlers[obj.type]
     if handler ~= nil then
         handler(obj.id, obj.data)
+    end
+  end,
+  [ACTION] = function(obj)
+    local handler = ActionHandlers[obj.type]
+    if handler == nil then
+        return
+    end
+
+    local actionHandler = handler[obj.action]
+    if actionHandler ~= nil then
+      actionHandler(obj.id, obj.data)
     end
   end
 }
 
 function HandleTextMessage(data)
     local obj = json.decode(data)
+    if obj.data == nil then
+      obj.data = {}
+    end
     local handler = RequestHandlers[obj.method]
     if handler ~= nil then
         handler(obj)

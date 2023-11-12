@@ -1,3 +1,5 @@
+import { asepriteContext } from "./aseprite-context";
+
 const hostConfig = {
   supportsMutation: true,
   noTimeout: -1,
@@ -28,6 +30,8 @@ function createInstance(
   internalInstanceHandle
 ) {
   console.log("createInstance");
+  const element = asepriteContext.createElement(type, props);
+  return element;
 }
 
 function createTextInstance(
@@ -37,18 +41,26 @@ function createTextInstance(
   internalInstanceHandle
 ) {
   console.log("createTextInstance", text);
+  throw new Error("raw text not supported");
 }
 
-function appendInitialChild(parentInstance, child) {
+function appendInitialChild(parentElement, child) {
   console.log("appendInitialChild");
+  parentElement.appendChild(child);
 }
 
-function appendChild(parentInstance, child) {
+function appendChild(parentElement, child) {
   console.log("appendChild");
+  parentElement.appendChild(child);
 }
 
 function appendChildToContainer(container, child) {
   console.log("appendChildToContainer");
+  if (container.root && child.type !== "dialog") {
+    throw new Error("only dialogs can be root elements");
+  }
+
+  child.show();
 }
 
 function prepareUpdate(
@@ -85,6 +97,9 @@ function finalizeInitialChildren(
 
 function getChildHostContext(parentHostContext, type, rootContainerInstance) {
   console.log("getChildHostContext");
+  return {
+    type,
+  };
 }
 
 function getPublicInstance(instance) {
