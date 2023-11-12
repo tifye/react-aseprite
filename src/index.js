@@ -5,6 +5,7 @@ import { AsepriteContext, setAsepriteContext } from "./aseprite-context";
 import Button from "./components/Button";
 import Dialog from "./components/Dialog";
 import Break from "./components/Break";
+import Separator from "./components/Separator";
 
 async function main() {
   const socket = new AsepriteWebSocketConnection();
@@ -15,6 +16,7 @@ async function main() {
 
   ReactAseprite.render(
     <Dialog title="Meep">
+      <Separator text="React Aseprite Renderer" />
       <Button
         text="Click me, Mino!"
         label="labelle"

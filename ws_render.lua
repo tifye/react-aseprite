@@ -1,6 +1,7 @@
 local DIALOG = "dialog"
 local BUTTON = "button"
 local NEWROW = "newrow"
+local SEPARATOR = "separator"
 
 local ACTION = "action"
 local CREATE = "create"
@@ -79,6 +80,13 @@ function CreateNewRow(id, data)
   userDialog:newrow()
 end
 
+function CreateSeparator(id, data)
+  userDialog:separator {
+    id = id,
+    text = data.text
+  }
+end
+
 DialogActions = {
   ["show"] = function(id, data)
     userDialog:show {
@@ -90,7 +98,8 @@ DialogActions = {
 CreateHandlers = {
     [BUTTON] = CreateButton,
     [DIALOG] = CreateDialog,
-    [NEWROW] = CreateNewRow
+    [NEWROW] = CreateNewRow,
+    [SEPARATOR] = CreateSeparator
 }
 
 ActionHandlers = {
