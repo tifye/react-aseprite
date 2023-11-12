@@ -3,6 +3,7 @@ local BUTTON = "button"
 local NEWROW = "newrow"
 local SEPARATOR = "separator"
 local LABLE = "label"
+local SHADES = "shades"
 
 local ACTION = "action"
 local CREATE = "create"
@@ -43,6 +44,22 @@ function EmitEvent(id, event, data)
     event = event,
     data = data
   }))
+end
+
+function JsonColorToColor(jsonColor)
+  local colorProps = {}
+  for k, v in pairs(jsonColor) do
+    colorProps[k] = v
+  end
+  return Color(colorProps)
+end
+
+function ColorToJsonColor(color)
+  local jsonColor = {}
+  for k, v in pairs(color) do
+    jsonColor[k] = v
+  end
+  return jsonColor
 end
 
 function CreateButton(id, data)
@@ -92,6 +109,43 @@ function CreateDialog(id, data)
   }
 end
 
+function CreateShades(id, data)
+  local colors = {}
+  for i=1, #data.colors, 1 do
+    colors[i] = JsonColorToColor(data.colors[i])
+  end
+  userDialog:shades {
+    id = id,
+    label = data.label,
+    colors = colors,
+    mode = data.mode,
+    onclick = function(ev)
+      data = {
+        color = {
+          red = ev.color.red,
+          green = ev.color.green,
+          blue = ev.color.blue,
+        },
+        button = ev.button
+      }
+      EmitEvent(id, "click", data)
+    end
+  }
+end
+
+function UpdateShades(id, data)
+  local colors = {}
+  for i=1, #data.colors, 1 do
+    colors[i] = JsonColorToColor(data.colors[i])
+  end
+  userDialog:modify {
+    id = id,
+    label = data.label,
+    colors = colors,
+    mode = data.mode
+  }  
+end
+
 function CreateNewRow(id, data)
   userDialog:newrow()
 end
@@ -132,12 +186,14 @@ CreateHandlers = {
     [DIALOG] = CreateDialog,
     [NEWROW] = CreateNewRow,
     [SEPARATOR] = CreateSeparator,
-    [LABLE] = CreateLabel
+    [LABLE] = CreateLabel,
+    [SHADES] = CreateShades
 }
 
 UpdateHandlers = {
   [BUTTON] = UpdateButton,
-  [LABLE] = UpdateLabel
+  [LABLE] = UpdateLabel,
+  [SHADES] = UpdateShades
 }
 
 ActionHandlers = {

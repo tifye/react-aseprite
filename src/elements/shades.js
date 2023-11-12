@@ -1,37 +1,33 @@
 import { getRandomId } from "../utils.js";
 
-export function createButton(context, props) {
-  console.log("createButton");
+export function createShades(context, props) {
+  console.log("createShades");
   const id = getRandomId();
-  const button = new Button(context, id);
+  const shades = new Shades(context, id);
 
-  ["text", "onclick", "label", "focus", "visible", "selected"].forEach(
-    (name) => {
-      const val = props[name];
-      if (val !== undefined) {
-        button[name] = val;
-      }
+  Object.keys(props).forEach((name) => {
+    const val = props[name];
+    if (val !== undefined) {
+      shades.props.set(name, val);
     }
-  );
+  });
 
-  return button;
+  return shades;
 }
 
-export default class Button {
-  type = "button";
-  text = "";
-  onclick = () => {};
-  label = "";
-  focus = false;
-  visible = true;
-  selected = false;
+export default class Shades {
+  type = "shades";
 
   constructor(context, id) {
     this.context = context;
     this.id = id;
+    this.props = new Map();
+
+    this.props.set("onclick", () => {});
+    this.props.set("mode", "pick");
 
     this.eventsMap = {
-      click: () => this.onclick(),
+      click: (data) => this.props.get("onclick")(data),
     };
 
     this.context.aseprite.on(this.id, this.onEvent.bind(this));
@@ -56,20 +52,18 @@ export default class Button {
   updateProps(props) {
     Object.keys(props).forEach((name) => {
       const val = props[name];
-      if (val !== undefined && this[name] !== undefined) {
-        this[name] = val;
+      if (val !== undefined) {
+        this.props.set(name, val);
       }
     });
     this.context.aseprite.update(this.type, this.id, this.getProps());
   }
 
   getProps() {
-    return {
-      text: this.text,
-      label: this.label,
-      focus: this.focus,
-      visible: this.visible,
-      selected: this.selected,
-    };
+    const props = {};
+    this.props.forEach((val, key) => {
+      props[key] = val;
+    });
+    return props;
   }
 }

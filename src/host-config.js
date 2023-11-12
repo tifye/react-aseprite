@@ -102,9 +102,9 @@ function commitUpdate(
   console.log("updatePayload", updatePayload);
   try {
     instance.updateProps(updatePayload);
-  } catch {
+  } catch (e) {
     console.log("failed commitUpdate for", instance.id, instance.type);
-    throw new Error("instance does not have updateProps");
+    throw new Error(e);
   }
 }
 
