@@ -49,11 +49,27 @@ export default class Button {
     console.log("appending", this.type, "to", dialogId);
     this.context.aseprite.create(this.type, this.id, {
       dialogId,
+      ...this.getProps(),
+    });
+  }
+
+  updateProps(props) {
+    Object.keys(props).forEach((name) => {
+      const val = props[name];
+      if (val !== undefined && this[name] !== undefined) {
+        this[name] = val;
+      }
+    });
+    this.context.aseprite.update(this.type, this.id, this.getProps());
+  }
+
+  getProps() {
+    return {
       text: this.text,
       label: this.label,
       focus: this.focus,
       visible: this.visible,
       selected: this.selected,
-    });
+    };
   }
 }

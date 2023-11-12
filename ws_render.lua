@@ -5,6 +5,7 @@ local SEPARATOR = "separator"
 
 local ACTION = "action"
 local CREATE = "create"
+local UPDATE = "update"
 
 local userDialog
 
@@ -63,6 +64,17 @@ function CreateButton(id, data)
   }
 end
 
+function UpdateButton(id, data)
+  userDialog:modify {
+    id = id,
+    text = data.text,
+    label = data.label,
+    selected = data.selected,
+    focus = data.focus,
+    visible = data.visible
+  }
+end
+
 function CreateDialog(id, data)
   userDialog = Dialog { 
     title = data.title,
@@ -102,6 +114,10 @@ CreateHandlers = {
     [SEPARATOR] = CreateSeparator
 }
 
+UpdateHandlers = {
+  [BUTTON] = UpdateButton
+}
+
 ActionHandlers = {
   [DIALOG] = DialogActions
 }
@@ -112,6 +128,12 @@ RequestHandlers = {
     if handler ~= nil then
         handler(obj.id, obj.data)
     end
+  end,
+  [UPDATE] = function(obj)
+    local handler = UpdateHandlers[obj.type]
+    if handler ~= nil then
+        handler(obj.id, obj.data)
+    end 
   end,
   [ACTION] = function(obj)
     local handler = ActionHandlers[obj.type]

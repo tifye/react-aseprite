@@ -66,6 +66,17 @@ export default class AsepriteWebSocketConnection {
     this.send(req);
   }
 
+  update(type, id, data) {
+    const req = {
+      method: "update",
+      type,
+      id,
+      data,
+    };
+
+    this.send(req);
+  }
+
   on(id, listener) {
     this.eventEmitter.on(id, listener);
   }

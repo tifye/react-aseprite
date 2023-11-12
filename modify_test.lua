@@ -2,24 +2,36 @@ local dialog = Dialog {
   title = "Dialog modication test"
 }
 
+local counter = 0
+
 dialog:newrow {
   always = true
 }
 :button {
-  id = "add",
-  text = "Add button",
+  id = "target",
+  text = "text",
+  label = "label",
+}
+:button {
+  id = "text",
+  text = "Change text",
   onclick = function()
-    dialog:button {
-      id = "added",
-      text = "Added button"
+    counter = counter + 1
+    dialog:modify {
+      id = "target",
+      text = counter
     }
   end
 }
 :button {
-  id = "remove",
-  text = "Remove button",
+  id = "label",
+  text = "Change text",
   onclick = function()
-    print(dialog.data)
+    counter = counter + 1
+    dialog:modify {
+      id = "target",
+      label = counter
+    }
   end
 }
 

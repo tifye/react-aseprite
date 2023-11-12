@@ -72,6 +72,23 @@ function prepareUpdate(
   hostContext
 ) {
   console.log("prepareUpdate");
+
+  const payload = {};
+  Object.keys(newProps).forEach((key) => {
+    if (key === "children") {
+      return;
+    }
+
+    if (oldProps[key] !== newProps[key]) {
+      payload[key] = newProps[key];
+    }
+  });
+
+  if (Object.keys(payload).length === 0) {
+    return null;
+  }
+
+  return payload;
 }
 
 function commitUpdate(
@@ -82,7 +99,13 @@ function commitUpdate(
   newProps,
   finishedWork
 ) {
-  console.log("commitUpdate");
+  console.log("updatePayload", updatePayload);
+  try {
+    instance.updateProps(updatePayload);
+  } catch {
+    console.log("failed commitUpdate for", instance.id, instance.type);
+    throw new Error("instance does not have updateProps");
+  }
 }
 
 function finalizeInitialChildren(
@@ -91,39 +114,26 @@ function finalizeInitialChildren(
   props,
   rootContainerInstance,
   hostContext
-) {
-  console.log("finalizeInitialChildren");
-}
+) {}
 
 function getChildHostContext(parentHostContext, type, rootContainerInstance) {
-  console.log("getChildHostContext");
   return {
     type,
   };
 }
 
-function getPublicInstance(instance) {
-  console.log("getPublicInstance");
-}
+function getPublicInstance(instance) {}
 
-function getRootHostContext(rootContainerInstance) {
-  console.log("getRootHostContext");
-}
+function getRootHostContext(rootContainerInstance) {}
 
-function prepareForCommit(containerInfo) {
-  console.log("prepareForCommit");
-}
+function prepareForCommit(containerInfo) {}
 
-function resetAfterCommit(containerInfo) {
-  console.log("resetAfterCommit");
-}
+function resetAfterCommit(containerInfo) {}
 
 function shouldSetTextContent(type, props) {
-  console.log("shouldSetTextContent");
+  return false;
 }
 
-function clearContainer(container) {
-  console.log("clearContainer");
-}
+function clearContainer(container) {}
 
 export default hostConfig;
