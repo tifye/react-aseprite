@@ -2,7 +2,7 @@
 
 This project is just for me to learn how to create custom react renderer. Why Aesprite? Idk, created an Aseprite not too long ago and imagined the possibility on utilizing the javascript ecosystem and react.
 
-
+Do I believe this will be useful? I don`t know xd It may even be .. cursed o_o
 
 ## Phase
 
