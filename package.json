@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jimp": "^0.22.10",
     "react-reconciler": "^0.29.0",
     "ws": "^8.14.2"
   },
