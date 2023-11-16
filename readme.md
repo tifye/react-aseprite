@@ -2,7 +2,7 @@
 
 This project is just for me to learn how to create custom react renderer. Why Aesprite? Idk, created an Aseprite not too long ago and imagined the possibility on utilizing the javascript ecosystem and react.
 
-
+Do I believe this will be useful? I don`t know xd It may even be .. cursed o_o
 
 ## Phase
 
@@ -15,7 +15,8 @@ I will have three goals for this:
 
 2. Create a pixelated version of an image using the Swatch element (for absolutely no reason)
 ![image](https://github.com/tifye/react-aseprite/assets/9316788/cd3a5bb1-bb36-4308-a547-34d7c9a79419)
+*test artwork made by https://www.artstation.com/ioruko
 
-3. Recreate my palette organizer script using this
-4. Launch via lua script
-5. Migrate to use Hermes engine
+4. Recreate my palette organizer script using this
+5. Launch via lua script
+6. Migrate to use Hermes engine
