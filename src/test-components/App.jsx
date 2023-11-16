@@ -37,16 +37,20 @@ export default function () {
   }
 
   return (
-    <Dialog title="Meep">
-      <Label tail={`Counter: ${count}`} />
-      <Button text="-" onclick={subClicked} />
-      <Button text="+" onclick={addClicked} />
-      <Separator text="The button below does nothing" />
-      <Button text="Does nothing" focus={true} />
-      <Break />      
-      {colors && colors.map((colorsRow) => (
-        <><shades colors={colorsRow} mode="sort" onclick={shadesClicked} /><newrow /></>
-      ))}
-    </Dialog>
+    <dialog title="Meep">
+      <label text={`Counter: ${count}`} />
+      <button text="-" onclick={subClicked} />
+      <button text="+" onclick={addClicked} />
+      <separator text="The button below does nothing" />
+      <button text="Does nothing" focus={true} />
+      <newrow />
+      {colors &&
+        colors.map((colorsRow) => (
+          <>
+            <shades colors={colorsRow} mode="sort" onclick={shadesClicked} />
+            <newrow />
+          </>
+        ))}
+    </dialog>
   );
 }
